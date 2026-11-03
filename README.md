@@ -7,10 +7,7 @@
 ---
 
 ## 1. What to Build (Problem Statement)
-
-
-
-
+The department library needs a simple system to manage book lending and returns. It can be difficult to keep track of available books, borrowed books, student details, due dates, renewals, and overdue loans. Our project aims to make this process easier by providing a system where students can borrow, renew, and return books, while the librarian can manage books and monitor overdue loans.
 ---
 
 ## 2. Data
@@ -55,15 +52,14 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
 
 ## Stages 
 
-- `Melvin's Stages` :
+- **Melvin's Stages**
   -`Stage 1`: worked on E4 
   -`stage 2`: worked on e5
-  -`stage 3`: worked on e6
 
 
 ## 4. API: 10 Endpoints
 
-Run it on port **8001**, and add CORS so the React app can call it.
+Run it on port **8001**, and add CORS so the React app can call it
 
 Before you write any code, fill in the empty columns: method, path, request body, success code, and error codes.
 
