@@ -30,7 +30,7 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
 
 ## 3. Who is Doing What
 
-### Melvin Jacob
+### Melvin 
 - **Backend:**
   - `E4`: Change a book's total copies. Copies available go up or down by the same amount.
   - `E5`: Delete a book.
