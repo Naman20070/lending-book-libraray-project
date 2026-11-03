@@ -2,7 +2,7 @@
 
 | Team | Partner 1 | Partner 2 | Partner 3 | Project | Branch |
 |---|---|---|---|---|---|
-| 01 | Melvin Jacob | Naman Choudhary | Gokul | [Library Book Lending](https://github.com/Naman20070/lending-book-libraray-project) | `main` |
+| 01 | Melvin  | Naman Choudhary | Gokul | [Library Book Lending](https://github.com/Naman20070/lending-book-libraray-project) | `main` |
 
 ---
 
@@ -28,7 +28,7 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
 
 ## 3. Who is Doing What
 
-### Melvin Jacob
+### Melvin 
 - **Backend:**
   - `E4`: Change a book's total copies. Copies available go up or down by the same amount.
   - `E5`: Delete a book.
@@ -55,6 +55,8 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
 - **Melvin's Stages**
   -`Stage 1`: worked on E4 
   -`stage 2`: worked on e5
+  -`stage 3`:worked  on readme files
+  -`stage 4`: worked on endpoints
 
 
 ## 4. API: 10 Endpoints
@@ -68,9 +70,9 @@ Before you write any code, fill in the empty columns: method, path, request body
 | **E1** | Get all the books. Can be filtered by genre and searched by title. |  |  |  |  |  | Gokul |
 | **E2** | Get one book by its id. |  |  |  |  |  | Gokul |
 | **E3** | Add a new book: title, author, genre and total copies. Copies available start equal to total copies. |  |  |  |  |  | Gokul |
-| **E4** | Change a book's total copies. Copies available go up or down by the same amount. |  |  |  |  |  | Melvin |
-| **E5** | Delete a book. |  |  |  |  |  | Melvin |
-| **E6** | Borrow a book with a roll number. The borrow date is today and the due date is 14 days later. |  |  |  |  |  | Melvin |
+| **E4** | Change a book's total copies. Copies available go up or down by the same amount. | patch | `/books/{book_id}/copies` | `{22}` | 200 | 400, 404 | Melvin |
+| **E5** | Delete a book. | deleted | `/books/{book_id}` | None | 200 |  404 | Melvin |
+| **E6** | Borrow a book with a roll number. The borrow date is today and the due date is 14 days later. | post | `/books/{book_id}/borrow` | `{"roll_no": "AU25UG034"}` | 201 | 404 | Melvin |
 | **E7** | Renew a loan. The due date moves 7 days later. |  |  |  |  |  | Naman |
 | **E8** | Return a loan. The return date is today. |  |  |  |  |  | Naman |
 | **E9** | Get one student's loans that aren't returned, by roll number. Each one includes the book's title and the due date. |  |  |  |  |  | Naman |
