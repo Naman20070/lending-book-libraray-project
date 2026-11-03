@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String , Boolean ,ForeignKey ,create_engine, DateTime
 from sqlalchemy.orm import Session, declarative_base
-from datetime import datetime
+from datetime import datetime, timedelta
 
 DB_PATH = "Library.db"
 engine = create_engine(f"sqlite:///{DB_PATH}")
@@ -25,28 +25,66 @@ class loans(Base):
     renewed= Column(Boolean)
     returned_on = Column(DateTime , nullable=True)
 
-Base.metadata.create_all(engine) 
+Base.metadata.create_all(engine)
 
 
 
-def add_book(title, author, genre, total_copies):
+def change_book_copies(book_id, new_total_copies):
     session = Session(engine)
-    new_book = books(
-        title=title,
-        author=author,
-        genre=genre,
-        total_copies=total_copies,
-        copies_available=total_copies
-    )
-    session.add(new_book)
+
+    book = session.query(books).filter(books.id == book_id).first()
+
+    if not book:
+        session.close()
+        return None
+
+    copies_added = new_total_copies - book.total_copies
+
+    new_copies_available = book.copies_available + copies_added
+
+    if new_copies_available < 0:
+        session.close()
+        return "invalid_copies"
+
+    book.total_copies = new_total_copies
+    book.copies_available = new_copies_available
+
     session.commit()
+
     temp = {
-        "id": new_book.id,
-        "title": new_book.title,
-        "author": new_book.author,
-        "genre": new_book.genre,
-        "total_copies": new_book.total_copies,
-        "copies_available": new_book.copies_available
+        "id": book.id,
+        "title": book.title,
+        "total_copies": book.total_copies,
+        "copies_available": book.copies_available
     }
+
     session.close()
     return temp
+
+def delete_book(book_id):
+    session = Session(engine)
+    book = session.query(books).filter(books.id == book_id).first()
+    if not book:
+        session.close()
+        return None
+    session.delete(book)
+    session.commit()
+    session.close()
+    return {"book deleted successfully"}
+
+def borrow_book(book_id, roll_no):
+    session = Session(engine)
+
+    borrowed_on = datetime.now()
+    due_on = borrowed_on + timedelta(days=14)
+
+    loan = loans(
+        book_id=book_id,
+        roll_no=roll_no,
+        borrowed_on=borrowed_on,
+        due_on=due_on
+    )
+
+    session.add(loan)
+    session.commit()
+    session.close()

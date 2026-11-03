@@ -14,15 +14,30 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-VALID_GENRES = ["textbook", "fiction", "reference", "magazine", "biography"]
 
-@app.post("/books")
-def add_new_book(title: str, author: str, genre: str, total_copies: int):
-    if not title or not author or not genre:
-        raise HTTPException(status_code=422, detail="Missing required field.")
-    if genre not in VALID_GENRES:
-        raise HTTPException(status_code=422, detail="Invalid genre.")
-    if not (1 <= total_copies <= 20):
-        raise HTTPException(status_code=422, detail="Total copies must be between 1 and 20.")
-    return functions.add_book(title=title, author=author, genre=genre, total_copies=total_copies)
 
+@app.patch("/books/{book_id}/copies")
+def change_book_copies(book_id: int, new_total_copies: int):
+    result = functions.change_book_copies(book_id=book_id, new_total_copies=new_total_copies)
+
+    if result == "invalid_copies":
+        raise HTTPException(status_code=400, detail="Invalid number of copies.")
+
+    if result is None:
+        raise HTTPException(status_code=404, detail="book id is invalid.")
+
+    return result
+
+@app.delete("/books/{book_id}")
+def remove_book(book_id: int):
+    result = functions.delete_book(book_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail="book not found")
+    return result
+
+@app.post("/books/{book_id}/borrow")
+def borrow_book(book_id: int, roll_no: str):
+    result = functions.borrow_book(book_id=book_id, roll_no=roll_no)
+    if not result:
+        raise HTTPException(status_code=404, detail="book id is invalid")
+    return result
