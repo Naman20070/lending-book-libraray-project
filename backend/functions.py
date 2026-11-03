@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String , Boolean ,ForeignKey ,create_engine, DateTime, func
+from sqlalchemy import Column, Integer, String , Boolean ,ForeignKey ,create_engine, DateTime
 from sqlalchemy.orm import Session, declarative_base
 from datetime import datetime
 
