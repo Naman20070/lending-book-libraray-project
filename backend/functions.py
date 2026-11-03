@@ -26,3 +26,27 @@ class loans(Base):
     returned_on = Column(DateTime , nullable=True)
 
 Base.metadata.create_all(engine) 
+
+
+
+def add_book(title, author, genre, total_copies):
+    session = Session(engine)
+    new_book = books(
+        title=title,
+        author=author,
+        genre=genre,
+        total_copies=total_copies,
+        copies_available=total_copies
+    )
+    session.add(new_book)
+    session.commit()
+    temp = {
+        "id": new_book.id,
+        "title": new_book.title,
+        "author": new_book.author,
+        "genre": new_book.genre,
+        "total_copies": new_book.total_copies,
+        "copies_available": new_book.copies_available
+    }
+    session.close()
+    return temp
