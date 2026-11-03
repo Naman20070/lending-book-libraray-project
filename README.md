@@ -7,7 +7,7 @@
 ---
 
 
-## 1. What to Build (Problem Statement)
+## 1 Problem Statement
 The department library needs a simple system to manage book lending and returns. It can be difficult to keep track of available books, borrowed books, student details, due dates, renewals, and overdue loans. Our project aims to make this process easier by providing a system where students can borrow, renew, and return books, while the librarian can manage books and monitor overdue loans.
 
 ---
