@@ -70,7 +70,6 @@ def delete_book(book_id):
     session.delete(book)
     session.commit()
     session.close()
-    return {"book deleted successfully"}
 
 def borrow_book(book_id, roll_no):
     session = Session(engine)
