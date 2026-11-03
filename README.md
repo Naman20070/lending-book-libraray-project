@@ -56,7 +56,9 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
 ## Stages 
 
 - `Melvin's Stages` :
-  -`Stage 1`: worked on E4
+  -`Stage 1`: worked on E4 
+  -`stage 2`: worked on e5
+  -`stage 3`: worked on e6
 
 
 ## 4. API: 10 Endpoints
