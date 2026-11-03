@@ -2,7 +2,7 @@
 
 | Team | Partner 1 | Partner 2 | Partner 3 | Project | Branch |
 |---|---|---|---|---|---|
-| 01 | Melvin Jacob | Naman Choudhary | Gokul | [Library Book Lending](https://github.com/Naman20070/lending-book-libraray-project) | `main` |
+| 01 | Melvin  | Naman Choudhary | Gokul | [Library Book Lending](https://github.com/Naman20070/lending-book-libraray-project) | `main` |
 
 ---
 
