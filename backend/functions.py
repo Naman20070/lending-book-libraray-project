@@ -128,12 +128,23 @@ def delete_book(book_id):
     if not book:
         session.close()
         return None
+
+    copies_out = session.query(loans).filter(
+        loans.book_id == book_id,
+        loans.returned_on.is_(None)
+    ).count()
+
+    if copies_out > 0:
+        session.close()
+        return "on_loan"
+
     session.delete(book)
     session.commit()
     session.close()
-    return {"book deleted"}
+    return "book deleted"
 
 def borrow_book(book_id, roll_no):
+
     session = Session(engine)
 
     book = session.query(books).filter(books.id == book_id).first()
@@ -145,6 +156,20 @@ def borrow_book(book_id, roll_no):
     if book.copies_available <= 0:
         session.close()
         return "no_copies"
+
+    student_loans = session.query(loans).filter(loans.roll_no == roll_no,loans.returned_on.is_(None)).all()
+
+    if len(student_loans) >= 3:
+        session.close()
+        return "limit_reached"
+
+    for old_loan in student_loans:
+        if old_loan.due_on.date() < date.today():
+            session.close()
+            return "overdue"
+        elif old_loan.book_id == book_id:
+            session.close()
+            return "already_borrowed"
 
     borrowed_on = date.today()
     due_on = borrowed_on + timedelta(days=14)
