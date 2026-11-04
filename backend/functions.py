@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String , Boolean ,ForeignKey ,create_engine, DateTime
 from sqlalchemy.orm import Session, declarative_base
-from datetime import date , timedelta
+from datetime import date, timedelta
 
 DB_PATH = "Library.db"
 engine = create_engine(f"sqlite:///{DB_PATH}")
@@ -88,3 +88,174 @@ def add_new_book(title, author, genre, total_copies):
     }
     session.close()
     return temp
+
+
+def change_book_copies(book_id, new_total_copies):
+    session = Session(engine)
+
+    book = session.query(books).filter(books.id == book_id).first()
+
+    if not book:
+        session.close()
+        return None
+
+    copies_added = new_total_copies - book.total_copies
+
+    new_copies_available = book.copies_available + copies_added
+
+    if new_copies_available < 0:
+        session.close()
+        return "invalid_copies"
+
+    book.total_copies = new_total_copies
+    book.copies_available = new_copies_available
+
+    session.commit()
+
+    temp = {
+        "id": book.id,
+        "title": book.title,
+        "total_copies": book.total_copies,
+        "copies_available": book.copies_available
+    }
+
+    session.close()
+    return temp
+
+def delete_book(book_id):
+    session = Session(engine)
+    book = session.query(books).filter(books.id == book_id).first()
+    if not book:
+        session.close()
+        return None
+    session.delete(book)
+    session.commit()
+    session.close()
+
+def borrow_book(book_id, roll_no):
+    session = Session(engine)
+
+    borrowed_on = date.today()
+    due_on = borrowed_on + timedelta(days=14)
+
+    loan = loans(
+        book_id=book_id,
+        roll_no=roll_no,
+        borrowed_on=borrowed_on,
+        due_on=due_on
+    )
+
+    session.add(loan)
+    session.commit()
+    session.close()
+
+
+def renew_loan(loan_id: int):
+    session = Session(engine)
+    loan = session.query(loans).filter(loans.id == loan_id).first()
+    
+    if not loan:
+        session.close()
+        return {"error": "Loan not found", "status": 404}
+    if loan.returned_on:
+        session.close()
+        return {"error": "Loan already returned", "status": 400}
+    if loan.renewed:
+        session.close()
+        return {"error": "Loan already renewed", "status": 400}
+    if loan.due_on.date() < date.today():
+        session.close()
+        return {"error": "Cannot renew an overdue loan", "status": 400}
+        
+    loan.due_on = loan.due_on + timedelta(days=7)
+    loan.renewed = True
+    session.commit()
+    
+    temp = {
+        "id": loan.id,
+        "book_id": loan.book_id,
+        "roll_no": loan.roll_no,
+        "due_on": loan.due_on,
+        "renewed": loan.renewed
+    }
+    session.close()
+    return temp
+
+def return_loan(loan_id: int):
+    session = Session(engine)
+    loan = session.query(loans).filter(loans.id == loan_id).first()
+    
+    if not loan:
+        session.close()
+        return {"error": "Loan not found", "status": 404}
+    if loan.returned_on:
+        session.close()
+        return {"error": "Loan already returned", "status": 400}
+        
+    loan.returned_on = date.today()
+    
+    book = session.query(books).filter(books.id == loan.book_id).first()
+    if book:
+        book.copies_available += 1
+        
+    session.commit()
+    
+    temp = {
+        "id": loan.id,
+        "book_id": loan.book_id,
+        "roll_no": loan.roll_no,
+        "returned_on": loan.returned_on
+    }
+    session.close()
+    return temp
+
+def get_student_loans(roll_no: str):
+    session = Session(engine)
+    
+    active_loans = session.query(loans).filter(
+        loans.roll_no == roll_no,
+        loans.returned_on.is_(None)
+    ).all()
+    
+    response = []
+    for loan in active_loans:
+        book = session.query(books).filter(books.id == loan.book_id).first()
+        
+        if book:
+            response.append({
+                "id": loan.id,
+                "book_id": loan.book_id,
+                "title": book.title,
+                "due_on": loan.due_on,
+                "renewed": loan.renewed
+            })
+            
+    session.close()
+    return response
+
+def get_overdue_loans():
+    session = Session(engine)
+    active_loans = session.query(loans).filter(
+        loans.returned_on.is_(None)
+    ).all()
+    
+    overdue = []
+    for loan in active_loans:
+        if loan.due_on and loan.due_on.date() < date.today():
+            overdue.append(loan)
+            
+    response = []
+    for loan in overdue:
+        book = session.query(books).filter(books.id == loan.book_id).first()
+        
+        if book:
+            response.append({
+                "id": loan.id,
+                "book_id": loan.book_id,
+                "title": book.title,
+                "roll_no": loan.roll_no,
+                "due_on": loan.due_on
+            })
+            
+    session.close()
+    return response
