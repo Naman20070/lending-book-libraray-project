@@ -97,7 +97,7 @@ def change_book_copies(book_id, new_total_copies):
 
     if not book:
         session.close()
-        return None
+        return {"error": "book id is invalid", "status": 404}
 
     copies_added = new_total_copies - book.total_copies
 
@@ -105,7 +105,7 @@ def change_book_copies(book_id, new_total_copies):
 
     if new_copies_available < 0:
         session.close()
-        return "invalid_copies"
+        return {"error": "Invalid number of copies", "status": 400}
 
     book.total_copies = new_total_copies
     book.copies_available = new_copies_available
@@ -125,13 +125,21 @@ def change_book_copies(book_id, new_total_copies):
 def delete_book(book_id):
     session = Session(engine)
     book = session.query(books).filter(books.id == book_id).first()
+
     if not book:
         session.close()
-        return None
+        return {"error": "book not found", "status": 404}
+
+    copies_out = session.query(loans).filter(loans.book_id == book_id,loans.returned_on.is_(None)).count()
+
+    if copies_out > 0:
+        session.close()
+        return {"error": "book has copies out on loan", "status": 400}
+
     session.delete(book)
     session.commit()
     session.close()
-    return {"book deleted"}
+    return "book deleted"
 
 def borrow_book(book_id, roll_no):
     session = Session(engine)
@@ -140,11 +148,25 @@ def borrow_book(book_id, roll_no):
 
     if not book:
         session.close()
-        return None
+        return {"error": "book id is invalid", "status": 404}
 
     if book.copies_available <= 0:
         session.close()
-        return "no_copies"
+        return {"error": "no copies available", "status": 400}
+
+    student_loans = session.query(loans).filter(loans.roll_no == roll_no, loans.returned_on.is_(None)).all()
+
+    if len(student_loans) >= 3:
+        session.close()
+        return {"error": "student already has 3 loans not returned", "status": 400}
+
+    for old_loan in student_loans:
+        if old_loan.due_on.date() < date.today():
+            session.close()
+            return {"error": "student has an overdue loan", "status": 400}
+        elif old_loan.book_id == book_id:
+            session.close()
+            return {"error": "student already has this book", "status": 400}
 
     borrowed_on = date.today()
     due_on = borrowed_on + timedelta(days=14)
