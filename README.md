@@ -57,6 +57,8 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
   -`stage 2`: worked on e5
   -`stage 3`:worked  on readme files
   -`stage 4`: worked on endpoints
+  -`stage 5`: worked on endpoint to add status codes
+  -`stage 6`: worked on readme file
 
 
 ## 4. API: 10 Endpoints
