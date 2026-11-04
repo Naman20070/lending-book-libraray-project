@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String , Boolean ,ForeignKey ,create_engine, DateTime
 from sqlalchemy.orm import Session, declarative_base
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 
 DB_PATH = "Library.db"
 engine = create_engine(f"sqlite:///{DB_PATH}")
@@ -74,7 +74,7 @@ def delete_book(book_id):
 def borrow_book(book_id, roll_no):
     session = Session(engine)
 
-    borrowed_on = datetime.now()
+    borrowed_on = date.today()
     due_on = borrowed_on + timedelta(days=14)
 
     loan = loans(
