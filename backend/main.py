@@ -47,9 +47,6 @@ def renew_loan(loan_id: int):
         
     return result
 
-def add_new_book(title: str, author: str, genre: str, total_copies: int):
-    return functions.add_new_book(title=title, author=author, genre=genre, total_copies=total_copies)
-
 @app.patch("/books/copies/{book_id}")
 def change_book_copies(book_id: int, new_total_copies: int):
     if new_total_copies < 1 or new_total_copies > 20:
