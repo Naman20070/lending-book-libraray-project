@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String , Boolean ,ForeignKey ,create_engine, DateTime
 from sqlalchemy.orm import Session, declarative_base
-from datetime import datetime
+from datetime import date , timedelta
 
 DB_PATH = "Library.db"
 engine = create_engine(f"sqlite:///{DB_PATH}")
@@ -20,7 +20,7 @@ class loans(Base):
     id = Column(Integer , primary_key=True)
     book_id = Column(Integer , ForeignKey("books.id"))
     roll_no = Column(String)
-    borrowed_on = Column(DateTime ,default =  datetime.now)
+    borrowed_on = Column(DateTime ,default =  date.today)
     due_on = Column(DateTime)
     renewed= Column(Boolean)
     returned_on = Column(DateTime , nullable=True)
@@ -77,7 +77,6 @@ def add_new_book(title, author, genre, total_copies):
     )
     session.add(book)
     session.commit()
-    session.refresh(book)
     
     temp = {
         "id": book.id,
