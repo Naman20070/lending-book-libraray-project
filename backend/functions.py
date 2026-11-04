@@ -25,7 +25,69 @@ class loans(Base):
     renewed= Column(Boolean)
     returned_on = Column(DateTime , nullable=True)
 
-Base.metadata.create_all(engine) 
+Base.metadata.create_all(engine)
+
+
+
+def change_book_copies(book_id, new_total_copies):
+    session = Session(engine)
+
+    book = session.query(books).filter(books.id == book_id).first()
+
+    if not book:
+        session.close()
+        return None
+
+    copies_added = new_total_copies - book.total_copies
+
+    new_copies_available = book.copies_available + copies_added
+
+    if new_copies_available < 0:
+        session.close()
+        return "invalid_copies"
+
+    book.total_copies = new_total_copies
+    book.copies_available = new_copies_available
+
+    session.commit()
+
+    temp = {
+        "id": book.id,
+        "title": book.title,
+        "total_copies": book.total_copies,
+        "copies_available": book.copies_available
+    }
+
+    session.close()
+    return temp
+
+def delete_book(book_id):
+    session = Session(engine)
+    book = session.query(books).filter(books.id == book_id).first()
+    if not book:
+        session.close()
+        return None
+    session.delete(book)
+    session.commit()
+    session.close()
+
+def borrow_book(book_id, roll_no):
+    session = Session(engine)
+
+    borrowed_on = date.today()
+    due_on = borrowed_on + timedelta(days=14)
+
+    loan = loans(
+        book_id=book_id,
+        roll_no=roll_no,
+        borrowed_on=borrowed_on,
+        due_on=due_on
+    )
+
+    session.add(loan)
+    session.commit()
+    session.close()
+
 
 def renew_loan(loan_id: int):
     session = Session(engine)
