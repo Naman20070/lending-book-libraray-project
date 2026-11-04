@@ -20,14 +20,75 @@ class loans(Base):
     id = Column(Integer , primary_key=True)
     book_id = Column(Integer , ForeignKey("books.id"))
     roll_no = Column(String)
-    borrowed_on = Column(DateTime ,default =  datetime.now)
+    borrowed_on = Column(DateTime ,default =  date.today)
     due_on = Column(DateTime)
     renewed= Column(Boolean)
     returned_on = Column(DateTime , nullable=True)
 
 Base.metadata.create_all(engine)
 
+def get_books(genre=None, title=None):
+    session = Session(engine)
+    query = session.query(books)
+    if genre:
+        query = query.filter(books.genre == genre)
+    if title:
+        query = query.filter(books.title.ilike(f"%{title}%"))
+    response = []
+    for book in query:
+        temp = {
+            "id": book.id,
+            "title": book.title,
+            "author": book.author,
+            "genre": book.genre,
+            "total_copies": book.total_copies,
+            "copies_available": book.copies_available
+        }
+        response.append(temp)
+    session.close()
+    return response
 
+def get_one_book(id: int):
+    session = Session(engine)
+    book = session.query(books).filter(books.id == id).first()
+    if not book:
+        session.close()
+        return None
+    
+    temp = {
+        "id": book.id,
+        "title": book.title,
+        "author": book.author,
+        "genre": book.genre,
+        "total_copies": book.total_copies,
+        "copies_available": book.copies_available
+    }
+    session.close()
+    return temp
+
+def add_new_book(title, author, genre, total_copies):
+    session = Session(engine)
+    book = books(
+        title=title,
+        author=author,
+        genre=genre,
+        total_copies=total_copies,
+        copies_available=total_copies
+    )
+    session.add(book)
+    session.commit()
+    session.refresh(book)
+    
+    temp = {
+        "id": book.id,
+        "title": book.title,
+        "author": book.author,
+        "genre": book.genre,
+        "total_copies": book.total_copies,
+        "copies_available": book.copies_available
+    }
+    session.close()
+    return temp
 
 def change_book_copies(book_id, new_total_copies):
     session = Session(engine)
@@ -70,9 +131,20 @@ def delete_book(book_id):
     session.delete(book)
     session.commit()
     session.close()
+    return {"book deleted"}
 
 def borrow_book(book_id, roll_no):
     session = Session(engine)
+
+    book = session.query(books).filter(books.id == book_id).first()
+
+    if not book:
+        session.close()
+        return None
+
+    if book.copies_available <= 0:
+        session.close()
+        return "no_copies"
 
     borrowed_on = date.today()
     due_on = borrowed_on + timedelta(days=14)
@@ -81,9 +153,22 @@ def borrow_book(book_id, roll_no):
         book_id=book_id,
         roll_no=roll_no,
         borrowed_on=borrowed_on,
-        due_on=due_on
+        due_on=due_on,
+        renewed=False
     )
+
+    book.copies_available = book.copies_available - 1
 
     session.add(loan)
     session.commit()
+
+    temp = {
+        "loan_id": loan.id,
+        "book_id": book_id,
+        "roll_no": roll_no,
+        "borrowed_on": str(borrowed_on),
+        "due_on": str(due_on)
+    }
+
     session.close()
+    return temp
