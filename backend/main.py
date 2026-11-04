@@ -79,10 +79,6 @@ def borrow_book(book_id: int, roll_no: str):
         
     return result
   
-  
-  
-  
-
 @app.patch("/loans/{loan_id}/return")
 def api_return_loan(loan_id: int):
     result = functions.return_loan(loan_id)
