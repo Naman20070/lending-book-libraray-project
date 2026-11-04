@@ -52,5 +52,11 @@ def remove_book(book_id: int):
 @app.post("/books/borrow/{book_id}")
 def borrow_book(book_id: int, roll_no: str):
     result = functions.borrow_book(book_id=book_id, roll_no=roll_no)
-    if not result:
+
+    if result is None:
         raise HTTPException(status_code=404, detail="book id is invalid")
+
+    if result == "no_copies":
+        raise HTTPException(status_code=400, detail="no copies available")
+
+    return result
