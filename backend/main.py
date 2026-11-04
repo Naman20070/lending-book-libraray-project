@@ -54,23 +54,19 @@ def change_book_copies(book_id: int, new_total_copies: int):
 
     result = functions.change_book_copies(book_id=book_id, new_total_copies=new_total_copies)
 
-    if result == "invalid_copies":
-        raise HTTPException(status_code=400, detail="Invalid number of copies.")
-    elif result is None:
-        raise HTTPException(status_code=404, detail="book id is invalid.")
-    else:
-        return result
+    if "error" in result:
+        raise HTTPException(status_code=result["status"], detail=result["error"])
+
+    return result
 
 @app.delete("/books/{book_id}")
 def remove_book(book_id: int):
     result = functions.delete_book(book_id)
 
-    if result is None:
-        raise HTTPException(status_code=404, detail="book not found")
-    elif result == "on_loan":
-        raise HTTPException(status_code=400, detail="book has copies out on loan")
-    else:
-        return result
+    if "error" in result:
+        raise HTTPException(status_code=result["status"], detail=result["error"])
+
+    return result
 
 @app.post("/books/borrow/{book_id}")
 def borrow_book(book_id: int, roll_no: str):
@@ -79,18 +75,10 @@ def borrow_book(book_id: int, roll_no: str):
 
     result = functions.borrow_book(book_id=book_id, roll_no=roll_no)
 
-    if result is None:
-        raise HTTPException(status_code=404, detail="book id is invalid")
-    elif result == "no_copies":
-        raise HTTPException(status_code=400, detail="no copies available")
-    elif result == "limit_reached":
-        raise HTTPException(status_code=400, detail="student already has 3 loans not returned")
-    elif result == "overdue":
-        raise HTTPException(status_code=400, detail="student has an overdue loan")
-    elif result == "already_borrowed":
-        raise HTTPException(status_code=400, detail="student already has this book")
-    else:
-        return result
+    if "error" in result:
+        raise HTTPException(status_code=result["status"], detail=result["error"])
+
+    return result
   
 @app.patch("/loans/{loan_id}/return")
 def return_loan(loan_id: int):
