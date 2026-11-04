@@ -67,6 +67,11 @@ def get_one_book(id: int):
     return temp
 
 def add_new_book(title, author, genre, total_copies):
+    if not title or not author or not genre or total_copies is None:
+        return {"error": "A missing or empty field", "status_code": 422}
+    if not (1 <= total_copies <= 20):
+        return {"error": "total_copies must be between 1 and 20", "status_code": 422}
+
     session = Session(engine)
     book = books(
         title=title,
