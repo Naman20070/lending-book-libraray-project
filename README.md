@@ -57,6 +57,8 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
   -`stage 2`: worked on e5
   -`stage 3`:worked  on readme files
   -`stage 4`: worked on endpoints
+  -`stage 5`: worked on endpoint to add status codes
+  -`stage 6`: worked on readme file
 
 
 ## 4. API: 10 Endpoints
@@ -70,14 +72,13 @@ Before you write any code, fill in the empty columns: method, path, request body
 | **E1** | Get all the books. Can be filtered by genre and searched by title. |  |  |  |  |  | Gokul |
 | **E2** | Get one book by its id. |  |  |  |  |  | Gokul |
 | **E3** | Add a new book: title, author, genre and total copies. Copies available start equal to total copies. |  |  |  |  |  | Gokul |
-| **E4** | Change a book's total copies. Copies available go up or down by the same amount. | patch | `/books/{book_id}/copies` | `{22}` | 200 | 400, 404 | Melvin |
-| **E5** | Delete a book. | deleted | `/books/{book_id}` | None | 200 |  404 | Melvin |
-| **E6** | Borrow a book with a roll number. The borrow date is today and the due date is 14 days later. | post | `/books/{book_id}/borrow` | `{"roll_no": "AU25UG034"}` | 201 | 404 | Melvin |
+| **E4** | Change a book's total copies. Copies available go up or down by the same amount. | PATCH | `/books/copies/{book_id}` | None. Send `new_total_copies` as a query parameter, for example `?new_total_copies=22` | 200 | 400, 404, 422 | Melvin |
+| **E5** | Delete a book. | DELETE | `/books/{book_id}` | None | 200 | 400, 404 | Melvin |
+| **E6** | Borrow a book with a roll number. The borrow date is today and the due date is 14 days later. | POST | `/books/borrow/{book_id}` | None. Send `roll_no` as a query parameter, for example `?roll_no=AU25UG034` | 200 | 400, 404, 422 | Melvin |
 | **E7** | Renew a loan. The due date moves 7 days later. |  |  |  |  |  | Naman |
 | **E8** | Return a loan. The return date is today. |  |  |  |  |  | Naman |
 | **E9** | Get one student's loans that aren't returned, by roll number. Each one includes the book's title and the due date. |  |  |  |  |  | Naman |
 | **E10** | Get all overdue loans, with the book's title and the roll number. |  |  |  |  |  | Naman |
-
 ---
 
 ## 5. Rules the API Must Check
@@ -97,5 +98,27 @@ Before you write any code, fill in the empty columns: method, path, request body
 
 - Borrowing takes 1 from `copies_available`, and returning adds 1 back.
 - Every error sends a clear message: `{"detail": "This student already has 3 books."}`.
+
+---
+
+## 6. Endpoint tracker
+
+Status: ✅ done · 🟡 in progress · ⬜ not started
+
+| # | Method + path | Built | Rules checked in /docs | Connected to React | Who |
+|---|---|---|---|---|---|
+| E1 |  |  |  |  | Gokul |
+| E2 |  |  |  |  | Gokul |
+| E3 |  |  |  |  | Gokul |
+| E4 | `PATCH /books/copies/{book_id}` | ✅ | 🟡 | ⬜ | Melvin |
+| E5 | `DELETE /books/{book_id}` | ✅ | 🟡 | ⬜ | Melvin |
+| E6 | `POST /books/borrow/{book_id}` | ✅ | 🟡 | ⬜ | Melvin |
+| E7 |  |  |  |  | Naman |
+| E8 |  |  |  |  | Naman |
+| E9 |  |  |  |  | Naman |
+| E10 |  |  |  |  | Naman |
+
+---
+
 
 
