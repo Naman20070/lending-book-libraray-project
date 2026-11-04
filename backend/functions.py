@@ -25,8 +25,69 @@ class loans(Base):
     renewed= Column(Boolean)
     returned_on = Column(DateTime , nullable=True)
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(engine) 
 
+def get_books(genre=None, title=None):
+    session = Session(engine)
+    query = session.query(books)
+    if genre:
+        query = query.filter(books.genre == genre)
+    if title:
+        query = query.filter(books.title.ilike(f"%{title}%"))
+    response = []
+    for book in query:
+        temp = {
+            "id": book.id,
+            "title": book.title,
+            "author": book.author,
+            "genre": book.genre,
+            "total_copies": book.total_copies,
+            "copies_available": book.copies_available
+        }
+        response.append(temp)
+    session.close()
+    return response
+
+def get_one_book(id: int):
+    session = Session(engine)
+    book = session.query(books).filter(books.id == id).first()
+    if not book:
+        session.close()
+        return None
+    
+    temp = {
+        "id": book.id,
+        "title": book.title,
+        "author": book.author,
+        "genre": book.genre,
+        "total_copies": book.total_copies,
+        "copies_available": book.copies_available
+    }
+    session.close()
+    return temp
+
+def add_new_book(title, author, genre, total_copies):
+    session = Session(engine)
+    book = books(
+        title=title,
+        author=author,
+        genre=genre,
+        total_copies=total_copies,
+        copies_available=total_copies
+    )
+    session.add(book)
+    session.commit()
+    
+    temp = {
+        "id": book.id,
+        "title": book.title,
+        "author": book.author,
+        "genre": book.genre,
+        "total_copies": book.total_copies,
+        "copies_available": book.copies_available
+    }
+    session.close()
+    return temp
 
 
 def change_book_copies(book_id, new_total_copies):
