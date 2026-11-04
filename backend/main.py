@@ -52,24 +52,18 @@ def remove_book(book_id: int):
 @app.post("/books/borrow/{book_id}")
 def borrow_book(book_id: int, roll_no: str):
     result = functions.borrow_book(book_id=book_id, roll_no=roll_no)
-    if not result:
+
+    if result is None:
         raise HTTPException(status_code=404, detail="book id is invalid")
-@app.get("/loans/overdue")
-def api_get_overdue_loans():
-    return functions.get_overdue_loans()
 
-@app.get("/loans/student/{roll_no}")
-def api_get_student_loans(roll_no: str):
-    return functions.get_student_loans(roll_no)
-
-@app.patch("/loans/{loan_id}/renew")
-def api_renew_loan(loan_id: int):
-    result = functions.renew_loan(loan_id)
-    
-    if "error" in result:
-        raise HTTPException(status_code=result["status"], detail=result["error"])
+    if result == "no_copies":
+        raise HTTPException(status_code=400, detail="no copies available")
         
     return result
+  
+  
+  
+  
 
 @app.patch("/loans/{loan_id}/return")
 def api_return_loan(loan_id: int):
