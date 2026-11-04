@@ -31,7 +31,6 @@ VALID_GENRES = ["Fiction", "Non-Fiction", "Sci-Fi", "Fantasy", "Mystery"]
 
 @app.post("/books")
 def add_new_book(title: str, author: str, genre: str, total_copies: int):
-<<<<<<< HEAD
     if genre not in VALID_GENRES:
         raise HTTPException(status_code=422, detail="Genre not in the list")
         
@@ -41,7 +40,6 @@ def add_new_book(title: str, author: str, genre: str, total_copies: int):
         raise HTTPException(status_code=result["status_code"], detail=result["error"])
         
     return result
-=======
     return functions.add_new_book(title=title, author=author, genre=genre, total_copies=total_copies)
 
 @app.patch("/books/copies/{book_id}")
@@ -93,4 +91,3 @@ def api_return_loan(loan_id: int):
         raise HTTPException(status_code=result["status"], detail=result["error"])
         
     return result
->>>>>>> e2b1b657694433d0efb62a42f2b69b7108102333
