@@ -27,6 +27,24 @@ def get_one_book(id: int):
     return result
 
 @app.post("/books")
+
+@app.get("/loans/overdue")
+def api_get_overdue_loans():
+    return functions.get_overdue_loans()
+
+@app.get("/loans/student/{roll_no}")
+def api_get_student_loans(roll_no: str):
+    return functions.get_student_loans(roll_no)
+
+@app.patch("/loans/{loan_id}/renew")
+def api_renew_loan(loan_id: int):
+    result = functions.renew_loan(loan_id)
+    
+    if "error" in result:
+        raise HTTPException(status_code=result["status"], detail=result["error"])
+        
+    return result
+
 def add_new_book(title: str, author: str, genre: str, total_copies: int):
     return functions.add_new_book(title=title, author=author, genre=genre, total_copies=total_copies)
 
