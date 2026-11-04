@@ -16,7 +16,7 @@ app.add_middleware(
 
 
 
-@app.patch("/books/{book_id}/copies")
+@app.patch("/books/copies/{book_id}")
 def change_book_copies(book_id: int, new_total_copies: int):
     result = functions.change_book_copies(book_id=book_id, new_total_copies=new_total_copies)
 
@@ -35,7 +35,7 @@ def remove_book(book_id: int):
         raise HTTPException(status_code=404, detail="book not found")
     return result
 
-@app.post("/books/{book_id}/borrow")
+@app.post("/books/borrow/{book_id}")
 def borrow_book(book_id: int, roll_no: str):
     result = functions.borrow_book(book_id=book_id, roll_no=roll_no)
     if not result:
