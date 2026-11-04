@@ -58,5 +58,18 @@ def borrow_book(book_id: int, roll_no: str):
 
     if result == "no_copies":
         raise HTTPException(status_code=400, detail="no copies available")
+        
+    return result
+  
+  
+  
+  
 
+@app.patch("/loans/{loan_id}/return")
+def api_return_loan(loan_id: int):
+    result = functions.return_loan(loan_id)
+    
+    if "error" in result:
+        raise HTTPException(status_code=result["status"], detail=result["error"])
+        
     return result

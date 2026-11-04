@@ -25,7 +25,7 @@ class loans(Base):
     renewed= Column(Boolean)
     returned_on = Column(DateTime , nullable=True)
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(engine) 
 
 def get_books(genre=None, title=None):
     session = Session(engine)
