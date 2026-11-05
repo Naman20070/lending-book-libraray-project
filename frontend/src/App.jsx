@@ -1,10 +1,9 @@
 import { useState } from "react";
+import Books from "./Books";
+import AddBook from "./AddBook";
+import Loans from "./Loans";
 
-const API_URL = "http://127.0.0.1:8001";
-
-
-
-function App() {
+export default function App() {
   const [refresh, setRefresh] = useState(0);
 
   function handleAction() {
@@ -12,8 +11,18 @@ function App() {
   }
 
   return (
-    pass
+    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+      <h2 style={{ textAlign: "center", marginBottom: "40px" }}>Library Management System</h2>
+      
+      <Books refresh={refresh} onAction={handleAction} />
+
+      <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
+
+      <AddBook onAction={handleAction} />
+
+      <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
+
+      <Loans refresh={refresh} onAction={handleAction} />
+    </div>
   );
 }
-
-export default App;
