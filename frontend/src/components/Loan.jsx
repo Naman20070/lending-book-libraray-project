@@ -7,6 +7,23 @@ function Loans({onAction}) {
   const [rollNo, setRollNo] = useState("");
   const [message, setMessage] = useState("");
 
+
+  function fetchStudentLoans() {
+    if (!rollNo) {
+      setMessage("Enter a Roll No to search.");
+      return;
+    }
+    fetch(`${API_URL}/loans/student/${rollNo}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.detail) setMessage(data.detail);
+        else {
+          setLoans(data);
+          setMessage(""); 
+        }
+      });
+  }
+
   function fetchOverdue(){
     fetch(`${API_URL}/loans/overdue`)
     .then((res) => res.json())
