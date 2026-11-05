@@ -100,6 +100,7 @@ function Loans({ onAction }) {
         ))}
       </ul>
     </div>
+
   );
 }
 

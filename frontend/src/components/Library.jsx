@@ -10,6 +10,8 @@ export default function Books({ refresh, onAction }) {
   const [deleteBookId, setDeleteBookId] = useState("");
   const [newTotalCopies, setNewTotalCopies] = useState("");
   const [message, setMessage] = useState("");
+  const [rollNo, setRollNo] = useState("");
+  
 
   useEffect(() => {
     fetchbooks();
@@ -62,6 +64,20 @@ export default function Books({ refresh, onAction }) {
           setMessage("Book deleted successfully!");
           setDeleteBookId("");
           onAction();
+        }
+      });
+  }
+
+  function borrowBook() {
+    fetch(`${API_URL}/books/borrow/${bookId}?roll_no=${rollNo}`, {
+      method: "post"
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.detail) {
+          setMessage("Error: " + data.detail);
+        } else {
+          setMessage("Book borrowed successfully!");
         }
       });
   }

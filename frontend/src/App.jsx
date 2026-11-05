@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Library from ".components/Library";
-import AddBook from ".componenets/AddBook";
-import Loans from ".componenets/Loan";
+import Library from "./components/Library";
+import AddBook from "./components/Addbook";
+import Loans from "./components/Loan";
 
 export default function App() {
   const [refresh, setRefresh] = useState(0);
@@ -16,11 +16,7 @@ export default function App() {
       
       <Library refresh={refresh} onAction={handleAction} />
 
-      <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
-
       <AddBook onAction={handleAction} />
-
-      <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
 
       <Loans refresh={refresh} onAction={handleAction} />
     </div>
