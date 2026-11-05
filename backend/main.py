@@ -26,7 +26,7 @@ def get_one_book(id: int):
         raise HTTPException(status_code=404, detail="Book not found")
     return result
 
-VALID_GENRES = ["Fiction", "Non-Fiction", "Sci-Fi", "Fantasy", "Mystery"]
+VALID_GENRES = ["textbook", "fiction", "reference", "magazine", "biography"]
 
 @app.post("/books")
 def add_new_book(title: str, author: str, genre: str, total_copies: int):
