@@ -4,14 +4,16 @@ const API_URL = "http://127.0.0.1:8000";
 
 function Loans({ onAction }) {
   const [loans, setLoans] = useState([]);
-  const [rollNo, setRollNo] = useState("");
   const [message, setMessage] = useState("");
 
   function fetchStudentLoans() {
+    const rollNo = document.getElementById("searchRollNo").value;
+    
     if (!rollNo) {
       setMessage("Enter a Roll No to search.");
       return;
     }
+    
     fetch(`${API_URL}/loans/student/${rollNo}`)
       .then((res) => res.json())
       .then((data) => {
@@ -24,7 +26,8 @@ function Loans({ onAction }) {
   }
 
   function fetchOverdue() {
-    setRollNo("");
+    document.getElementById("searchRollNo").value = "";
+    
     fetch(`${API_URL}/loans/overdue`)
       .then((res) => res.json())
       .then((data) => {
@@ -45,6 +48,8 @@ function Loans({ onAction }) {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Loan renewed successfully!");
+          
+          const rollNo = document.getElementById("searchRollNo").value;
           if (rollNo === "") {
             fetchOverdue();
           } else {
@@ -63,6 +68,8 @@ function Loans({ onAction }) {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Book returned successfully!");
+          
+          const rollNo = document.getElementById("searchRollNo").value;
           if (rollNo === "") {
             fetchOverdue();
           } else {
@@ -80,7 +87,7 @@ function Loans({ onAction }) {
       <p><b>{message}</b></p>
 
       <b>Search: </b>
-      <input placeholder="Student Roll No" value={rollNo} onChange={(e) => setRollNo(e.target.value)} />
+      <input id="searchRollNo" placeholder="Student Roll No" />
       <button onClick={fetchStudentLoans}>Search Student</button>
       <button onClick={fetchOverdue}>View All Overdue</button>
       
@@ -100,6 +107,7 @@ function Loans({ onAction }) {
         ))}
       </ul>
     </div>
+
   );
 }
 

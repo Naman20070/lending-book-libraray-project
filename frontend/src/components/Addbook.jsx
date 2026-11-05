@@ -41,6 +41,7 @@ function AddBook({ onAction }) {
         {message}
       </div>
 
+<<<<<<< HEAD
       <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px", marginBottom: "20px" }}>
         <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
         <input placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} />
@@ -49,6 +50,14 @@ function AddBook({ onAction }) {
         
         <button onClick={handleAddBook}>Submit Book</button>
       </div>
+=======
+      <input id="titleInput" placeholder="Title" /> <br/><br/>
+      <input id="authorInput" placeholder="Author" /> <br/><br/>
+      <input id="genreInput" placeholder="Genre" /> <br/><br/>
+      <input id="copiesInput" type="number" placeholder="Total Copies" /> <br/><br/>
+      
+      <button onClick={handleAddBook}>Submit Book</button>
+>>>>>>> 1be9536bf59f30c05d4b8b567f21282203820df4
     </div>
   );
 }
