@@ -50,15 +50,6 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
 
 ---
 
-## Stages 
-
-- **Melvin's Stages**
-  -`Stage 1`: worked on E4 
-  -`stage 2`: worked on e5
-  -`stage 3`:worked  on readme files
-  -`stage 4`: worked on endpoints
-
-
 ## 4. API: 10 Endpoints
 
 Run it on port **8001**, and add CORS so the React app can call it
@@ -67,16 +58,16 @@ Before you write any code, fill in the empty columns: method, path, request body
 
 | # | What it does | Method | Path | Request body | Success code | Error codes | Who |
 |---|---|---|---|---|---|---|---|
-| **E1** | Get all the books. Can be filtered by genre and searched by title. |  |  |  |  |  | Gokul |
-| **E2** | Get one book by its id. |  |  |  |  |  | Gokul |
-| **E3** | Add a new book: title, author, genre and total copies. Copies available start equal to total copies. |  |  |  |  |  | Gokul |
-| **E4** | Change a book's total copies. Copies available go up or down by the same amount. | patch | `/books/{book_id}/copies` | `{22}` | 200 | 400, 404 | Melvin |
-| **E5** | Delete a book. | deleted | `/books/{book_id}` | None | 200 |  404 | Melvin |
-| **E6** | Borrow a book with a roll number. The borrow date is today and the due date is 14 days later. | post | `/books/{book_id}/borrow` | `{"roll_no": "AU25UG034"}` | 201 | 404 | Melvin |
-| **E7** | Renew a loan. The due date moves 7 days later. |  |  |  |  |  | Naman |
-| **E8** | Return a loan. The return date is today. |  |  |  |  |  | Naman |
-| **E9** | Get one student's loans that aren't returned, by roll number. Each one includes the book's title and the due date. |  |  |  |  |  | Naman |
-| **E10** | Get all overdue loans, with the book's title and the roll number. |  |  |  |  |  | Naman |
+| **E1** | Get all the books. Can be filtered by genre and searched by title. | get | `/books` | query parameters: genre, title | 200 |  | Gokul |
+| **E2** | Get one book by its id. | get | `/books/{id}` | none | 200 | 404, 422 | Gokul |
+| **E3** | Add a new book: title, author, genre and total copies. Copies available start equal to total copies. | post | `/books` | query parameters: title, author, genre, total_copies | 200 | 422 | Gokul |
+| **E4** | Change a book's total copies. Copies available go up or down by the same amount. | patch | `/books/copies/{book_id}` | query parameters: new_total_copies=22 | 200 | 400, 404, 422 | Melvin |
+| **E5** | Delete a book. | delete | `/books/{book_id}` | none | 200 | 400, 404, 422 | Melvin |
+| **E6** | Borrow a book with a roll number. The borrow date is today and the due date is 14 days later. | post | `/books/borrow/{book_id}` | query parameters: roll_no=AU25UG034 | 200 | 400, 404, 422 | Melvin |
+| **E7** | Renew a loan. The due date moves 7 days later. | patch | `/loans/{loan_id}/renew` | none | 200 | 400, 404, 422 | Naman |
+| **E8** | Return a loan. The return date is today. | patch | `/loans/{loan_id}/return` | none | 200 | 400, 404, 422 | Naman |
+| **E9** | Get one student's loans that aren't returned, by roll number. Each one includes the book's title and the due date. | get | `/loans/student/{roll_no}` | none | 200 |  | Naman |
+| **E10** | Get all overdue loans, with the book's title and the roll number. | get | `/loans/overdue` | none | 200 |  | Naman |
 
 ---
 
@@ -98,4 +89,25 @@ Before you write any code, fill in the empty columns: method, path, request body
 - Borrowing takes 1 from `copies_available`, and returning adds 1 back.
 - Every error sends a clear message: `{"detail": "This student already has 3 books."}`.
 
+---
+
+## 6. Endpoint tracker
+
+
+Status: ✅ done · 🟡 in progress · ⬜ not started
+
+| # | Method + path | Built | Rules checked in /docs | Connected to React | Who |
+|---|---|---|---|---|---|
+| E1 | `get /books` | ✅ | ✅ | ⬜ | Gokul |
+| E2 | `get /books/{id}` | ✅ | ✅ | ⬜ | Gokul |
+| E3 | `post /books` | ✅ | ✅ | ⬜ | Gokul |
+| E4 | `patch /books/copies/{book_id}` | ✅ | ✅ | ⬜ | Melvin |
+| E5 | `delete /books/{book_id}` | ✅ | ✅ | ⬜ | Melvin |
+| E6 | `post /books/borrow/{book_id}` | ✅ | ✅ | ⬜ | Melvin |
+| E7 | `patch /loans/{loan_id}/renew` | ✅ | ✅ | ⬜ | Naman |
+| E8 | `patch /loans/{loan_id}/return` | ✅ | ✅ | ⬜ | Naman |
+| E9 | `get /loans/student/{roll_no}` | ✅ | ✅ | ⬜ | Naman |
+| E10 | `get /loans/overdue` | ✅ | ✅ | ⬜ | Naman |
+
+---
 
