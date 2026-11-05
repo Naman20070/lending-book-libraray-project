@@ -39,10 +39,10 @@ function AddBook({ onAction }) {
       
       <p><b>{message}</b></p>
 
-      <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} /> <br/><br/>
-      <input placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} /> <br/><br/>
-      <input placeholder="Genre" value={genre} onChange={(e) => setGenre(e.target.value)} /> <br/><br/>
-      <input type="number" placeholder="Total Copies" value={totalCopies} onChange={(e) => setTotalCopies(e.target.value)} /> <br/><br/>
+      <input id="titleInput" placeholder="Title" /> <br/><br/>
+      <input id="authorInput" placeholder="Author" /> <br/><br/>
+      <input id="genreInput" placeholder="Genre" /> <br/><br/>
+      <input id="copiesInput" type="number" placeholder="Total Copies" /> <br/><br/>
       
       <button onClick={handleAddBook}>Submit Book</button>
     </div>
