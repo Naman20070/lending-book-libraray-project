@@ -111,3 +111,12 @@ Status: ✅ done · 🟡 in progress · ⬜ not started
 
 ---
 
+## 7. Frontend
+
+| Part | Shows | Does | Uses | Function Name |
+|---|---|---|---|---|
+| Books | a card per book: title, author, genre, copies available, and a "Not available" label; click one to see its details | genre filter and title search; roll number box + **Borrow** | E1, E2, E6 | `fetchbooks()` (E1, E2), `borrowBook()` (E6) |
+| My loans | the student's loans with due dates, and an "Overdue" label | type roll number + **Show**; **Renew** and **Return** buttons | E7, E8, E9 | `fetchStudentLoans()` (E9), `renewLoan()` (E7), `returnLoan()` (E8) |
+| Librarian | the overdue loans; a form with a genre dropdown | adds a book; a copies box + **Save** and a **Delete** button on each book | E3, E4, E5, E10 | `handleAddBook()` (E3), `changeTotalCopies()` (E4), `deleteBook()` (E5), `fetchOverdue()` (E10) |
+---
+
