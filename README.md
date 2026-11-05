@@ -142,10 +142,6 @@ One page with three parts. Keep the API address in one place: `const API_URL = "
 | **My loans** | `src/components/MyLoans.jsx` | the student's loans with due dates, and an "Overdue" label | type roll number + **Show**; **Renew** and **Return** buttons | E7, E8, E9 | `fetchStudentLoans()` (E9)<br>`renewLoan()` (E7)<br>`returnLoan()` (E8) |
 | **Librarian** | `src/components/Librarian.jsx` | the overdue loans; a form with a genre dropdown | adds a book; a copies box + **Save** and a **Delete** button on each book | E3, E4, E5, E10 | `handleAddBook()` (E3)<br>`changeTotalCopies()` (E4)<br>`deleteBook()` (E5)<br>`fetchOverdue()` (E10) |
 
-- Put each component in its own file in `src/components/`.
-- After every action, the page updates without a refresh.
-- When the API says no, show its detail message on the page.
-
 ---
 
 ## 9. How to Run

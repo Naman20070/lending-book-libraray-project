@@ -92,7 +92,14 @@ function Librarian({ onAction }) {
       <b>Add a New Book</b><br/>
       <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} /> <br/><br/>
       <input placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} /> <br/><br/>
-      <input placeholder="Genre" value={genre} onChange={(e) => setGenre(e.target.value)} /> <br/><br/>
+      Genre: <b>{genre ? genre : "None"}</b> <br/>
+      <div style={{ margin: "6px 0 10px" }}>
+        <button type="button" onClick={() => setGenre("textbook")}>textbook</button>
+        <button type="button" onClick={() => setGenre("fiction")}>fiction</button>
+        <button type="button" onClick={() => setGenre("reference")}>reference</button>
+        <button type="button" onClick={() => setGenre("magazine")}>magazine</button>
+        <button type="button" onClick={() => setGenre("biography")}>biography</button>
+      </div>
       <input type="number" placeholder="Total Copies" value={totalCopies} onChange={(e) => setTotalCopies(e.target.value)} /> <br/><br/>
       <button onClick={handleAddBook}>Submit Book</button>
 
