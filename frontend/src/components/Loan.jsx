@@ -67,28 +67,32 @@ function Loans({onAction}) {
     <div>
       <h3>Manage Loans</h3>
       
-      <div style={{ color: "blue", fontWeight: "bold", marginBottom: "15px" }}>
-        {message}
-      </div>
+      <p><b>{message}</b></p>
 
-      <div style={{ marginBottom: "20px" }}>
-        <strong>Search: </strong>
-        <input placeholder="Student Roll No" value={rollNo} onChange={(e) => setRollNo(e.target.value)} />
-        <button onClick={fetchStudentLoans}>Search Student</button>
-        <button onClick={fetchOverdue} style={{ marginLeft: "20px" }}>View All Overdue</button>
-      </div>
+      <b>Search: </b>
+      <input placeholder="Student Roll No" value={rollNo} onChange={(e) => setRollNo(e.target.value)} />
+      <button onClick={fetchStudentLoans}>Search Student</button>
+      &nbsp;&nbsp;
+      <button onClick={fetchOverdue}>View All Overdue</button>
+      
+      <br/><br/>
 
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul>
         {loans.map((loan) => (
-          <li key={loan.id} style={{ borderBottom: "1px solid #ccc", paddingBottom: "10px", marginBottom: "10px" }}>
+          <li key={loan.id}>
             Book ID: {loan.book_id} | Student: {loan.roll_no} <br/>
-            Due On: {loan.due_on} | Renewed: {loan.renewed ? "Yes" : "No"} <br/><br/>
+            Due On: {loan.due_on} | Renewed: {loan.renewed ? "Yes" : "No"} <br/>
+            
             <button onClick={() => renewLoan(loan.id)}>Renew</button>
-            <button onClick={() => returnLoan(loan.id)} style={{ marginLeft: "5px" }}>Return</button>
+            &nbsp;
+            <button onClick={() => returnLoan(loan.id)}>Return</button>
+            
+            <br/><br/>
           </li>
         ))}
       </ul>
     </div>
+
   );
 }
 
