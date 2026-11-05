@@ -39,7 +39,7 @@ def get_books(genre=None, title=None):
         temp = {
             "id": book.id,
             "title": book.title,
-            "author": book.author,
+            "author": book.author, 
             "genre": book.genre,
             "total_copies": book.total_copies,
             "copies_available": book.copies_available
