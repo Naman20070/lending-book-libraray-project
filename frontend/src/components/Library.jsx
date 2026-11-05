@@ -105,14 +105,14 @@ export default function Books({ refresh, onAction }) {
       <br/>
 
       <b>Change Total Copies</b><br/>
-      <input placeholder="Book ID" value={bookId} onChange={(e) => setBookId(e.target.value)} />
-      <input type="number" placeholder="New Total Copies" value={newTotalCopies} onChange={(e) => setNewTotalCopies(e.target.value)} />
+      <input placeholder="Book ID" value={bookId} onChange={(output) => setBookId(output.target.value)} />
+      <input type="number" placeholder="New Total Copies" value={newTotalCopies} onChange={(ouput) => setNewTotalCopies(ouput.target.value)} />
       <button onClick={changeTotalCopies}>Change Copies</button>
       
       <br/><br/>
 
       <b>Delete Book</b><br/>
-      <input placeholder="Book ID to Delete" value={deleteBookId} onChange={(e) => setDeleteBookId(e.target.value)} />
+      <input placeholder="Book ID to Delete" value={deleteBookId} onChange={(output) => setDeleteBookId(output.target.value)} />
       <button onClick={deleteBook}>Delete Book</button>
 
         <h2>Borrow Book</h2>
