@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const API_URL = "http://127.0.0.1:8001";
+const API_URL = "http://127.0.0.1:8000";
 
-function Library() {
+export default function Books({ refresh, onAction }) {
+  const [books, setBooks] = useState([]);
   const [selectedgenre, setGenre] = useState("");
   const [selectedtitle, setTitle] = useState("");
-  const [selectedauthor, setAuthor] = useState("");
-  const [selectedcopies, setCopies] = useState(0);
-  const [selectedbooks, setBooks] = useState([]);
   const [bookId, setBookId] = useState("");
   const [deleteBookId, setDeleteBookId] = useState("");
   const [newTotalCopies, setNewTotalCopies] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    fetchbooks();
+  }, [refresh]);
 
   function fetchbooks() {
     let url = `${API_URL}/books`;
@@ -33,7 +35,7 @@ function Library() {
 
   function changeTotalCopies() {
     fetch(`${API_URL}/books/copies/${bookId}?new_total_copies=${newTotalCopies}`, {
-      method: "patch"
+      method: "PATCH"
     })
       .then((res) => res.json())
       .then((data) => {
@@ -41,13 +43,16 @@ function Library() {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Total copies updated successfully!");
+          setBookId("");
+          setNewTotalCopies("");
+          onAction();
         }
       });
   }
 
   function deleteBook() {
     fetch(`${API_URL}/books/${deleteBookId}`, {
-      method: "delete"
+      method: "DELETE"
     })
       .then((res) => res.json())
       .then((data) => {
@@ -55,42 +60,44 @@ function Library() {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Book deleted successfully!");
+          setDeleteBookId("");
+          onAction();
         }
       });
   }
 
   return (
     <div>
-      <h2>Change Total Copies</h2>
-      <label>Book ID: </label>
-      <input
-        type="text"
-        value={bookId}
-        onChange={(output) => setBookId(output.target.value)}
-      />
+      <h3>Library Inventory</h3>
+      
+      <p><b>{message}</b></p>
 
-      <label>New Total Copies: </label>
-      <input
-        type="number"
-        value={newTotalCopies}
-        onChange={(output) => setNewTotalCopies(output.target.value)}
-      />
+      <b>Search Books: </b>
+      <input placeholder="Title" value={selectedtitle} onChange={(e) => setTitle(e.target.value)} />
+      <input placeholder="Genre" value={selectedgenre} onChange={(e) => setGenre(e.target.value)} />
+      <button onClick={fetchbooks}>Search</button>
 
+      <ul>
+        {books.map((book) => (
+          <li key={book.id}>
+            ID: {book.id} | Title: {book.title} | Genre: {book.genre} <br/>
+            Available: {book.copies_available} / {book.total_copies} <br/><br/>
+          </li>
+        ))}
+      </ul>
+
+      <br/>
+
+      <b>Change Total Copies</b><br/>
+      <input placeholder="Book ID" value={bookId} onChange={(e) => setBookId(e.target.value)} />
+      <input type="number" placeholder="New Total Copies" value={newTotalCopies} onChange={(e) => setNewTotalCopies(e.target.value)} />
       <button onClick={changeTotalCopies}>Change Copies</button>
+      
+      <br/><br/>
 
-      <h2>Delete Book</h2>
-      <label>Book ID: </label>
-      <input
-        type="text"
-        value={deleteBookId}
-        onChange={(output) => setDeleteBookId(output.target.value)}
-      />
-
+      <b>Delete Book</b><br/>
+      <input placeholder="Book ID to Delete" value={deleteBookId} onChange={(e) => setDeleteBookId(e.target.value)} />
       <button onClick={deleteBook}>Delete Book</button>
-
-      <p>{message}</p>
     </div>
   );
 }
-
-export default Library;
