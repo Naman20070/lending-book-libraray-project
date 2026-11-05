@@ -1,15 +1,11 @@
-function App() {
-  // ... your state & handleAction logic ...
+import Library from "./components/Library";
+import Loans from "./components/Loan";
 
+function App() {
   return (
     <div>
-      {/* ... your other components (e.g. Header, Library) ... */}
-
-      <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
-      <AddBook onAction={handleAction} />
-      
-      <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
-      <Loans refresh={refresh} onAction={handleAction} />
+      <Library />
+      <Loans />
     </div>
   );
 }
