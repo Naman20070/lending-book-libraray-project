@@ -11,12 +11,13 @@ export default function App() {
   }
 
   return (
+
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
       <h2 style={{ textAlign: "center", marginBottom: "40px" }}>
         <img src="/favicon.png" alt="" />
         Library Management System
       </h2>
-      
+
       <Books refresh={refresh} onAction={handleAction} />
 
       <MyLoans onAction={handleAction} />

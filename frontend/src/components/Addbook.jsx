@@ -2,14 +2,15 @@ import { useState } from "react";
 
 const API_URL = "http://127.0.0.1:8000";
 
-function AddBook({ onAction }) {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [genre, setGenre] = useState("");
-  const [totalCopies, setTotalCopies] = useState("");
+export default function AddBook({ onAction }) {
   const [message, setMessage] = useState("");
 
   function handleAddBook() {
+    const title = document.getElementById("titleInput").value;
+    const author = document.getElementById("authorInput").value;
+    const genre = document.getElementById("genreInput").value;
+    const totalCopies = document.getElementById("copiesInput").value;
+
     if (!title || !author || !genre || !totalCopies) {
       setMessage("Please fill in all fields.");
       return;
@@ -24,10 +25,12 @@ function AddBook({ onAction }) {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Book added successfully!");
-          setTitle("");
-          setAuthor("");
-          setGenre("");
-          setTotalCopies("");
+          
+          document.getElementById("titleInput").value = "";
+          document.getElementById("authorInput").value = "";
+          document.getElementById("genreInput").value = "";
+          document.getElementById("copiesInput").value = "";
+          
           onAction(); 
         }
       });
@@ -39,14 +42,21 @@ function AddBook({ onAction }) {
       
       <p><b>{message}</b></p>
 
-      <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} /> <br/><br/>
-      <input placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} /> <br/><br/>
-      <input placeholder="Genre" value={genre} onChange={(e) => setGenre(e.target.value)} /> <br/><br/>
-      <input type="number" placeholder="Total Copies" value={totalCopies} onChange={(e) => setTotalCopies(e.target.value)} /> <br/><br/>
+      <input id="titleInput" placeholder="Title" /> <br/><br/>
+      <input id="authorInput" placeholder="Author" /> <br/><br/>
+      
+      <select id="genreInput">
+        <option value="">Select a Genre</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Non-Fiction">Non-Fiction</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Mystery">Mystery</option>
+      </select> <br/><br/>
+
+      <input id="copiesInput" type="number" placeholder="Total Copies" /> <br/><br/>
       
       <button onClick={handleAddBook}>Submit Book</button>
     </div>
   );
 }
-
-export default AddBook
