@@ -16,13 +16,8 @@ export default function App() {
       
       <Library refresh={refresh} onAction={handleAction} />
 
-
       <AddBook onAction={handleAction} />
 
-
-
-      <AddBook onAction={handleAction} />
-      
       <Loans refresh={refresh} onAction={handleAction} />
     </div>
   );
