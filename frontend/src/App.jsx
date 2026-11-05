@@ -1,4 +1,5 @@
 import { useState } from "react";
+<<<<<<< Updated upstream
 import Books from "./Books";
 import AddBook from "./AddBook";
 import Loans from "./Loans";
@@ -15,6 +16,21 @@ export default function App() {
       <h2 style={{ textAlign: "center", marginBottom: "40px" }}>Library Management System</h2>
       
       <Books refresh={refresh} onAction={handleAction} />
+=======
+import AlertButton from "./components/Library";
+
+const API_URL = "http://127.0.0.1:8001";
+
+
+
+function App() {
+  return (
+    <div>
+      <AlertButton />
+    </div>
+  );
+}
+>>>>>>> Stashed changes
 
       <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
 

@@ -29,6 +29,35 @@ function Library({API_URL , refresh , onAction}){
             .then((data) => {setBooks(data);
             });
     }
+}
 
 
-} 
+function AlertButton() {
+     const [message, setMessage] = useState(""); 
+  return (
+    <div>
+      <button onClick={() => setMessage("Success! Your changes are saved.")}>
+        Submit
+      </button>
+
+      <p>{message}</p>
+    </div>
+  );
+}
+
+export default  AlertButton;
+
+
+function DeleteBookId(){
+     const [message, setMessage] = useState(""); 
+    return (
+    <div>
+     <input type="text" onChange={(e) => setText(e.target.value)} 
+      />
+      <p>{message}</p>
+    </div>
+  );
+}
+
+
+}
