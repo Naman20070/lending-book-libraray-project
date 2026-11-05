@@ -44,7 +44,16 @@ export default function AddBook({ onAction }) {
 
       <input id="titleInput" placeholder="Title" /> <br/><br/>
       <input id="authorInput" placeholder="Author" /> <br/><br/>
-      <input id="genreInput" placeholder="Genre" /> <br/><br/>
+      
+      <select id="genreInput">
+        <option value="">Select a Genre</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Non-Fiction">Non-Fiction</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Mystery">Mystery</option>
+      </select> <br/><br/>
+
       <input id="copiesInput" type="number" placeholder="Total Copies" /> <br/><br/>
       
       <button onClick={handleAddBook}>Submit Book</button>

@@ -24,7 +24,7 @@ export default function Books({ refresh, onAction }) {
       url = `${API_URL}/books?genre=${genre}`;
     }
 
-    fetch(url)
+    fetch(url, { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         setBooks(data);
@@ -97,7 +97,16 @@ export default function Books({ refresh, onAction }) {
 
       <b>Search Books: </b>
       <input id="searchTitle" placeholder="Title" />
-      <input id="searchGenre" placeholder="Genre" />
+      
+      <select id="searchGenre">
+        <option value="">All Genres</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Non-Fiction">Non-Fiction</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Mystery">Mystery</option>
+      </select>
+      
       <button onClick={fetchbooks}>Search</button>
 
       <ul>
