@@ -134,7 +134,7 @@ def delete_book(book_id):
     if not book:
         session.close()
         return {"error": "book not found", "status": 404}
-
+    #
     copies_out = session.query(loans).filter(loans.book_id == book_id,loans.returned_on.is_(None)).count()
 
     if copies_out > 0:
@@ -210,6 +210,7 @@ def renew_loan(loan_id: int):
     if loan.returned_on:
         session.close()
         return {"error": "Loan already returned", "status": 400}
+    #
     if loan.renewed:
         session.close()
         return {"error": "Loan already renewed", "status": 400}
