@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Books from "./Books";
-import AddBook from "./AddBook";
-import Loans from "./Loans";
+import Library from ".components/Library";
+import AddBook from ".componenets/AddBook";
+import Loans from ".componenets/Loan";
 
 export default function App() {
   const [refresh, setRefresh] = useState(0);
@@ -14,7 +14,7 @@ export default function App() {
     <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
       <h2 style={{ textAlign: "center", marginBottom: "40px" }}>Library Management System</h2>
       
-      <Books refresh={refresh} onAction={handleAction} />
+      <Library refresh={refresh} onAction={handleAction} />
 
       <hr style={{ margin: "40px 0", borderTop: "2px solid #ccc" }} />
 
