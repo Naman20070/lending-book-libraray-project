@@ -84,7 +84,6 @@ function Loans({onAction}) {
             Due On: {loan.due_on} | Renewed: {loan.renewed ? "Yes" : "No"} <br/>
             
             <button onClick={() => renewLoan(loan.id)}>Renew</button>
-            &nbsp;
             <button onClick={() => returnLoan(loan.id)}>Return</button>
             
             <br/><br/>
