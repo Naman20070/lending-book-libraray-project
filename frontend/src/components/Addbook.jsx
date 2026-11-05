@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const API_URL = "http://127.0.0.1:8000";
 
-export default function AddBook({ onAction }) {
+function AddBook({ onAction }) {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [genre, setGenre] = useState("");
@@ -52,3 +52,5 @@ export default function AddBook({ onAction }) {
     </div>
   );
 }
+
+export default AddBook;
