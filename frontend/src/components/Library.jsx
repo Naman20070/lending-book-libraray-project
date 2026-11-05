@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "http://127.0.0.1:8001";
 
-export default function Books({ refresh, onAction }) {
+function Books({ refresh, onAction }) {
   const [books, setBooks] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -100,11 +100,11 @@ export default function Books({ refresh, onAction }) {
       
       <select id="searchGenre">
         <option value="">All Genres</option>
-        <option value="Fiction">Fiction</option>
-        <option value="Non-Fiction">Non-Fiction</option>
-        <option value="Sci-Fi">Sci-Fi</option>
-        <option value="Fantasy">Fantasy</option>
-        <option value="Mystery">Mystery</option>
+        <option value="textbook">textbook</option>
+        <option value="fiction">fiction</option>
+        <option value="reference">reference</option>
+        <option value="magazine">magazine</option>
+        <option value="biography">biography</option>
       </select>
       
       <button onClick={fetchbooks}>Search</button>
@@ -140,3 +140,5 @@ export default function Books({ refresh, onAction }) {
     </div>
   );
 }
+
+export default Books;

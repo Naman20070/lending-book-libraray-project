@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Library from "./components/Library";
-import AddBook from "./components/Addbook";
-import Loans from "./components/Loan";
+import Books from "./components/Books";
+import MyLoans from "./components/MyLoans";
+import Librarian from "./components/Librarian";
 
 export default function App() {
   const [refresh, setRefresh] = useState(0);
@@ -14,11 +14,11 @@ export default function App() {
     <div>
       <h2>Library Management System</h2>
       
-      <Library refresh={refresh} onAction={handleAction} />
+      <Books refresh={refresh} onAction={handleAction} />
 
-      <AddBook onAction={handleAction} />
+      <MyLoans onAction={handleAction} />
 
-      <Loans refresh={refresh} onAction={handleAction} />
+      <Librarian onAction={handleAction} />
     </div>
   );
 }

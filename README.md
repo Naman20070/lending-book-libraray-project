@@ -2,31 +2,56 @@
 
 | Team | Partner 1 | Partner 2 | Partner 3 | Project | Branch |
 |---|---|---|---|---|---|
-| 01 | Melvin  | Naman Choudhary | Gokul | [Library Book Lending](https://github.com/Naman20070/lending-book-libraray-project) | `main` |
+| 01 | Melvin | Naman Choudhary | Gokul | [Library Book Lending](https://github.com/Naman20070/lending-book-libraray-project) | `Melvin's-Branch` |
 
 ---
 
 ## 1. What to Build (Problem Statement)
 The department library needs a simple system to manage book lending and returns. It can be difficult to keep track of available books, borrowed books, student details, due dates, renewals, and overdue loans. Our project aims to make this process easier by providing a system where students can borrow, renew, and return books, while the librarian can manage books and monitor overdue loans.
+
 ---
 
 ## 2. Data
 
-One SQLite file, library.db, with two tables.
+One SQLite file, `library.db`, with two tables.
 
 | Table | Columns |
 |---|---|
 | `books` | `id`, `title`, `author`, `genre`, `total_copies`, `copies_available` |
 | `loans` | `id`, `book_id`, `roll_no`, `borrowed_on`, `due_on`, `renewed` (0 or 1), `returned_on` (empty until returned) |
 
-genre must be one of: textbook, fiction, reference, magazine, biography.
-A loan is for 14 days. Renewing adds 7 days to due_on. A loan is overdue when it is not returned and due_on is before today.
-Add 10 books and 5 loans to start with. Give at least one book 0 copies available, and make one loan overdue.
-
+- **genre** must be strictly one of: `textbook`, `fiction`, `reference`, `magazine`, `biography`.
+- A loan is for **14 days**. Renewing adds **7 days** to `due_on`. A loan is **overdue** when it is not returned and `due_on` is before today.
+- Add **10 books** and **5 loans** to start with. Give at least one book 0 copies available, and make one loan overdue.
 
 ---
 
-## 3. Who is Doing What
+## 3. Project File Structure
+
+```
+lending-book-libraray-project/
+├── backend/
+│   ├── main.py              # FastAPI app, routing, CORS & port 8001 (E1–E10)
+│   ├── functions.py         # Database models, queries & rule validation logic
+│   └── library.db           # SQLite database with books and loans tables
+├── frontend/
+│   ├── index.html           # Vite HTML entry point
+│   ├── src/
+│   │   ├── main.jsx         # React application root mount
+│   │   ├── App.jsx          # Dashboard layout (Books, MyLoans, Librarian)
+│   │   ├── index.css        # Application styling & Chrome theme sync
+│   │   └── components/
+│   │       ├── Books.jsx     # Part 1: Book cards, search & borrow (E1, E2, E6)
+│   │       ├── MyLoans.jsx   # Part 2: Student loans, renew & return (E7, E8, E9)
+│   │       └── Librarian.jsx # Part 3: Add book, copies, delete & overdue (E3, E4, E5, E10)
+│   ├── package.json
+│   └── vite.config.js
+└── README.md                # Project documentation & setup guide
+```
+
+---
+
+## 4. Who is Doing What
 
 ### Melvin 
 - **Backend:**
@@ -47,14 +72,11 @@ Add 10 books and 5 loans to start with. Give at least one book 0 copies availabl
   - `E2`: Get one book by its id.
   - `E3`: Add a new book: title, author, genre and total copies. Copies available start equal to total copies.
 
-
 ---
 
-## 4. API: 10 Endpoints
+## 5. API: 10 Endpoints
 
-Run it on port **8001**, and add CORS so the React app can call it
-
-Before you write any code, fill in the empty columns: method, path, request body, success code, and error codes.
+Run it on port **8001**, and add CORS so the React app can call it.
 
 | # | What it does | Method | Path | Request body | Success code | Error codes | Who |
 |---|---|---|---|---|---|---|---|
@@ -71,7 +93,7 @@ Before you write any code, fill in the empty columns: method, path, request body
 
 ---
 
-## 5. Rules the API Must Check
+## 6. Rules the API Must Check
 
 | Rule | Status |
 |---|:---:|
@@ -91,23 +113,54 @@ Before you write any code, fill in the empty columns: method, path, request body
 
 ---
 
-## 6. Endpoint tracker
-
+## 7. Endpoint Tracker
 
 Status: ✅ done · 🟡 in progress · ⬜ not started
 
 | # | Method + path | Built | Rules checked in /docs | Connected to React | Who |
 |---|---|---|---|---|---|
-| E1 | `get /books` | ✅ | ✅ | ⬜ | Gokul |
-| E2 | `get /books/{id}` | ✅ | ✅ | ⬜ | Gokul |
-| E3 | `post /books` | ✅ | ✅ | ⬜ | Gokul |
-| E4 | `patch /books/copies/{book_id}` | ✅ | ✅ | ⬜ | Melvin |
-| E5 | `delete /books/{book_id}` | ✅ | ✅ | ⬜ | Melvin |
-| E6 | `post /books/borrow/{book_id}` | ✅ | ✅ | ⬜ | Melvin |
-| E7 | `patch /loans/{loan_id}/renew` | ✅ | ✅ | ⬜ | Naman |
-| E8 | `patch /loans/{loan_id}/return` | ✅ | ✅ | ⬜ | Naman |
-| E9 | `get /loans/student/{roll_no}` | ✅ | ✅ | ⬜ | Naman |
-| E10 | `get /loans/overdue` | ✅ | ✅ | ⬜ | Naman |
+| E1 | `get /books` | ✅ | ✅ | ✅ | Gokul |
+| E2 | `get /books/{id}` | ✅ | ✅ | ✅ | Gokul |
+| E3 | `post /books` | ✅ | ✅ | ✅ | Gokul |
+| E4 | `patch /books/copies/{book_id}` | ✅ | ✅ | ✅ | Melvin |
+| E5 | `delete /books/{book_id}` | ✅ | ✅ | ✅ | Melvin |
+| E6 | `post /books/borrow/{book_id}` | ✅ | ✅ | ✅ | Melvin |
+| E7 | `patch /loans/{loan_id}/renew` | ✅ | ✅ | ✅ | Naman |
+| E8 | `patch /loans/{loan_id}/return` | ✅ | ✅ | ✅ | Naman |
+| E9 | `get /loans/student/{roll_no}` | ✅ | ✅ | ✅ | Naman |
+| E10 | `get /loans/overdue` | ✅ | ✅ | ✅ | Naman |
 
 ---
 
+## 8. Frontend
+
+One page with three parts. Keep the API address in one place: `const API_URL = "http://127.0.0.1:8001";`
+
+| Part | Component File | Shows | Does | Uses | Function Name in JSX |
+|---|---|---|---|---|---|
+| **Books** | `src/components/Books.jsx` | a card per book: title, author, genre, copies available, and a "Not available" label; click one to see its details | genre filter and title search; roll number box + **Borrow** | E1, E2, E6 | `fetchbooks()` (E1, E2)<br>`borrowBook()` (E6) |
+| **My loans** | `src/components/MyLoans.jsx` | the student's loans with due dates, and an "Overdue" label | type roll number + **Show**; **Renew** and **Return** buttons | E7, E8, E9 | `fetchStudentLoans()` (E9)<br>`renewLoan()` (E7)<br>`returnLoan()` (E8) |
+| **Librarian** | `src/components/Librarian.jsx` | the overdue loans; a form with a genre dropdown | adds a book; a copies box + **Save** and a **Delete** button on each book | E3, E4, E5, E10 | `handleAddBook()` (E3)<br>`changeTotalCopies()` (E4)<br>`deleteBook()` (E5)<br>`fetchOverdue()` (E10) |
+
+- Put each component in its own file in `src/components/`.
+- After every action, the page updates without a refresh.
+- When the API says no, show its detail message on the page.
+
+---
+
+## 9. How to Run
+
+### Backend (FastAPI)
+```bash
+cd backend
+uvicorn main:app --reload --port 8001
+```
+The interactive API documentation is available at `http://127.0.0.1:8001/docs`.
+
+### Frontend (React + Vite)
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open `http://localhost:5173/` in your browser.
