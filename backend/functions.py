@@ -33,13 +33,13 @@ def get_books(genre=None, title=None):
     if genre:
         query = query.filter(books.genre == genre)
     if title:
-        query = query.filter(books.title.ilike(f"%{title}%"))
+        query = query.filter(books.title == title)
     response = []
     for book in query:
         temp = {
             "id": book.id,
             "title": book.title,
-            "author": book.author,
+            "author": book.author, 
             "genre": book.genre,
             "total_copies": book.total_copies,
             "copies_available": book.copies_available
@@ -259,7 +259,7 @@ def get_student_loans(roll_no: str):
 def get_overdue_loans():
     session = Session(engine)
     active_loans = session.query(loans).filter(
-        loans.returned_on.is_(None)
+        loans.returned_on == None
     ).all()
     
     overdue = []

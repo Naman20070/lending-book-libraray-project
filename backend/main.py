@@ -26,7 +26,19 @@ def get_one_book(id: int):
         raise HTTPException(status_code=404, detail="Book not found")
     return result
 
+VALID_GENRES = ["Fiction", "Non-Fiction", "Sci-Fi", "Fantasy", "Mystery"]
+
 @app.post("/books")
+def add_new_book(title: str, author: str, genre: str, total_copies: int):
+    if genre not in VALID_GENRES:
+        raise HTTPException(status_code=422, detail="Genre not in the list")
+        
+    result = functions.add_new_book(title=title, author=author, genre=genre, total_copies=total_copies)
+    
+    if "error" in result:
+        raise HTTPException(status_code=result["status_code"], detail=result["error"])
+        
+    return result
 
 @app.get("/loans/overdue")
 def get_overdue_loans():
@@ -45,8 +57,7 @@ def renew_loan(loan_id: int):
         
     return result
 
-def add_new_book(title: str, author: str, genre: str, total_copies: int):
-    return functions.add_new_book(title=title, author=author, genre=genre, total_copies=total_copies)
+
 
 @app.patch("/books/copies/{book_id}")
 def change_book_copies(book_id: int, new_total_copies: int):
