@@ -2,14 +2,15 @@ import { useState } from "react";
 
 const API_URL = "http://127.0.0.1:8000";
 
-function AddBook({ onAction }) {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [genre, setGenre] = useState("");
-  const [totalCopies, setTotalCopies] = useState("");
+export default function AddBook({ onAction }) {
   const [message, setMessage] = useState("");
 
   function handleAddBook() {
+    const title = document.getElementById("titleInput").value;
+    const author = document.getElementById("authorInput").value;
+    const genre = document.getElementById("genreInput").value;
+    const totalCopies = document.getElementById("copiesInput").value;
+
     if (!title || !author || !genre || !totalCopies) {
       setMessage("Please fill in all fields.");
       return;
@@ -24,10 +25,12 @@ function AddBook({ onAction }) {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Book added successfully!");
+          
           document.getElementById("titleInput").value = "";
           document.getElementById("authorInput").value = "";
           document.getElementById("genreInput").value = "";
           document.getElementById("copiesInput").value = "";
+          
           onAction(); 
         }
       });
@@ -48,5 +51,3 @@ function AddBook({ onAction }) {
     </div>
   );
 }
-
-export default AddBook
