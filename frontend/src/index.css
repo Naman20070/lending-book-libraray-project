@@ -71,6 +71,17 @@ body {
   letter-spacing: -0.02em;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#root > div > h2 img {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  vertical-align: middle;
 }
 
 /* ==========================================================================
