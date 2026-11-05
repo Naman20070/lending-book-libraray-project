@@ -72,7 +72,7 @@ function Loans({onAction}) {
       <b>Search: </b>
       <input placeholder="Student Roll No" value={rollNo} onChange={(e) => setRollNo(e.target.value)} />
       <button onClick={fetchStudentLoans}>Search Student</button>
-      &nbsp;&nbsp;
+
       <button onClick={fetchOverdue}>View All Overdue</button>
       
       <br/><br/>
