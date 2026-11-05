@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Library from ".components/Library";
-import AddBook from ".components/AddBook";
-import Loans from ".components/Loan";
+import Library from "./components/Library";
+import AddBook from "./components/Addbook";
+import Loans from "./components/Loan";
 
 export default function App() {
   const [refresh, setRefresh] = useState(0);
