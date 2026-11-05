@@ -2,11 +2,10 @@ import { useState } from "react";
 
 const API_URL = "http://127.0.0.1:8000";
 
-function Loans({onAction}) {
+function Loans({ onAction }) {
   const [loans, setLoans] = useState([]);
   const [rollNo, setRollNo] = useState("");
   const [message, setMessage] = useState("");
-
 
   function fetchStudentLoans() {
     if (!rollNo) {
@@ -24,33 +23,57 @@ function Loans({onAction}) {
       });
   }
 
-  function fetchOverdue(){
+  function fetchOverdue() {
+    setRollNo("");
     fetch(`${API_URL}/loans/overdue`)
-    .then((res) => res.json())
-    .then((data) => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.detail) {
-            setMessage(data.detail);
-        }else {
-            setLoans(data);
-            setMessage("");
+          setMessage(data.detail);
+        } else {
+          setLoans(data);
+          setMessage("");
         }
-    });
-    }
+      });
+  }
+
+  function renewLoan(loanId) {
+    fetch(`${API_URL}/loans/${loanId}/renew`, { method: "PATCH" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.detail) {
+          setMessage("Error: " + data.detail);
+        } else {
+          setMessage("Loan renewed successfully!");
+          if (rollNo === "") {
+            fetchOverdue();
+          } else {
+            fetchStudentLoans();
+          }
+          onAction();
+        }
+      });
+  }
 
   function returnLoan(loanId) {
     fetch(`${API_URL}/loans/${loanId}/return`, { method: "PATCH" })
-    .then((res) => res.json())
-    .then((data) => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.detail) {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Book returned successfully!");
+          if (rollNo === "") {
+            fetchOverdue();
+          } else {
+            fetchStudentLoans();
+          }
           onAction();
         }
-    });
-    }
+      });
+  }
 
-    return (
+  return (
     <div>
       <h3>Manage Loans</h3>
       
@@ -59,7 +82,6 @@ function Loans({onAction}) {
       <b>Search: </b>
       <input placeholder="Student Roll No" value={rollNo} onChange={(e) => setRollNo(e.target.value)} />
       <button onClick={fetchStudentLoans}>Search Student</button>
-      &nbsp;&nbsp;
       <button onClick={fetchOverdue}>View All Overdue</button>
       
       <br/><br/>
@@ -71,7 +93,6 @@ function Loans({onAction}) {
             Due On: {loan.due_on} | Renewed: {loan.renewed ? "Yes" : "No"} <br/>
             
             <button onClick={() => renewLoan(loan.id)}>Renew</button>
-            &nbsp;
             <button onClick={() => returnLoan(loan.id)}>Return</button>
             
             <br/><br/>
@@ -82,6 +103,5 @@ function Loans({onAction}) {
 
   );
 }
-
 
 export default Loans;

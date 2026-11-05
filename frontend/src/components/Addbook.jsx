@@ -37,18 +37,14 @@ function AddBook({ onAction }) {
     <div>
       <h3>Add a New Book</h3>
       
-      <div style={{ color: "blue", fontWeight: "bold", marginBottom: "15px" }}>
-        {message}
-      </div>
+      <p><b>{message}</b></p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px", marginBottom: "20px" }}>
-        <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <input placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} />
-        <input placeholder="Genre" value={genre} onChange={(e) => setGenre(e.target.value)} />
-        <input type="number" placeholder="Total Copies" value={totalCopies} onChange={(e) => setTotalCopies(e.target.value)} />
-        
-        <button onClick={handleAddBook}>Submit Book</button>
-      </div>
+      <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} /> <br/><br/>
+      <input placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} /> <br/><br/>
+      <input placeholder="Genre" value={genre} onChange={(e) => setGenre(e.target.value)} /> <br/><br/>
+      <input type="number" placeholder="Total Copies" value={totalCopies} onChange={(e) => setTotalCopies(e.target.value)} /> <br/><br/>
+      
+      <button onClick={handleAddBook}>Submit Book</button>
     </div>
   );
 }
