@@ -24,10 +24,10 @@ function AddBook({ onAction }) {
           setMessage("Error: " + data.detail);
         } else {
           setMessage("Book added successfully!");
-          setTitle("");
-          setAuthor("");
-          setGenre("");
-          setTotalCopies("");
+          document.getElementById("titleInput").value = "";
+          document.getElementById("authorInput").value = "";
+          document.getElementById("genreInput").value = "";
+          document.getElementById("copiesInput").value = "";
           onAction(); 
         }
       });
