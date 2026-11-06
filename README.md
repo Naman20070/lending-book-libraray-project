@@ -131,7 +131,8 @@ lending-book-libraray-project/
 │   │       ├── MyLoans.jsx   # Part 2: Student loans, renew & return (E7, E8, E9)
 │   │       └── Librarian.jsx # Part 3: Add book, copies, delete & overdue (E3, E4, E5, E10)
 │   ├── package.json
-│   └── vite.config.js
+│   ├── vite.config.js
+│   └── screenshot_app.png   # Frontend UI screenshot
 ├── screenshot_app.png       # Application UI preview screenshot
 └── README.md                # Project documentation & setup guide
 ```
