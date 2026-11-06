@@ -33,7 +33,6 @@ The department library needs a simple system to manage book lending and returns.
 - **Frontend:**
   - `MyLoans.jsx` component: `fetchStudentLoans()` (E9), `renewLoan()` (E7), and `returnLoan()` (E8)
   - `fetchOverdue()` in `src/components/Librarian.jsx` (E10)
-  - Co-developed `src/App.jsx` layout & state management
 
 ### Gokul
 - **Backend:**
